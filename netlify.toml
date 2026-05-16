@@ -1,0 +1,14 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+
+# Optional: pretty URLs (drop .html extension)
+# Uncomment if you want /about instead of /about.html
+# [[redirects]]
+#   from = "/about"
+#   to = "/about.html"
+#   status = 200
