@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <title>Blocks.expert</title>
+  <!-- The 5-quadrant B logo at 400x400 with centered composition -->
+  <!-- Stacked B: 3 navy spines down the left, 3 colored caps to the right -->
+  
+  <!-- Top row -->
+  <rect x="90" y="80" width="80" height="80" rx="12" fill="#123B68"/>
+  <rect x="178" y="80" width="120" height="80" rx="12" fill="#F4BE52"/>
+  
+  <!-- Middle row -->
+  <rect x="90" y="168" width="80" height="80" rx="12" fill="#123B68"/>
+  <rect x="178" y="168" width="120" height="80" rx="12" fill="#F68B74"/>
+  
+  <!-- Bottom row -->
+  <rect x="90" y="256" width="80" height="80" rx="12" fill="#8CCFC4"/>
+  <rect x="178" y="256" width="80" height="80" rx="12" fill="#9C87C8"/>
+</svg>
