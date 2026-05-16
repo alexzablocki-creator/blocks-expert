@@ -1,537 +1,746 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ToothPICK.food — No Choices. Just Magic.</title>
-<meta name="description" content="ToothPICK uses agentic AI to curate hyper-personalized, one-of-one food creations based on your Vibe DNA. No choices. Just magic." />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sandbox — Blocks.expert</title>
+<meta name="description" content="A calm, browser-based building space for structured creativity. Place blocks, change colors, and find your flow — distraction-free and free to use.">
 
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0a0a'/%3E%3Cpolygon points='14.5,4 17.5,4 19,28 13,28' fill='url(%23g)'/%3E%3Cline x1='16' y1='6' x2='16' y2='24' stroke='%23ffe9b8' stroke-width='0.5' opacity='0.6'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23d4b878'/%3E%3Cstop offset='1' stop-color='%238a6a30'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E" />
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0a0a'/%3E%3Cpolygon points='14.5,4 17.5,4 19,28 13,28' fill='%23b8924a'/%3E%3C/svg%3E" />
+<meta property="og:title" content="Sandbox — Blocks.expert">
+<meta property="og:description" content="A calm, browser-based building space for structured creativity. Place blocks, change colors, and find your flow — distraction-free and free to use.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blocks.expert/sandbox/">
+<meta property="og:image" content="https://blocks.expert/assets/images/og-default.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sandbox — Blocks.expert">
+<meta name="twitter:description" content="A calm, browser-based building space for structured creativity.">
+<meta name="twitter:image" content="https://blocks.expert/assets/images/og-default.png">
+
+<link rel="canonical" href="https://blocks.expert/sandbox/">
+
+<link rel="icon" type="image/svg+xml" href="/assets/images/logo.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #faf7f2; --bg-deep: #1a1715; --ink: #0a0a0a; --ink-soft: #2a2520;
-    --gold: #b8924a; --gold-light: #d4b878; --gold-deep: #8a6a30;
-    --wood: #c9a574; --paper: #f4ede0; --line: rgba(10, 10, 10, 0.08);
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--ink); font-family: 'Outfit', sans-serif; font-weight: 300; overflow-x: hidden; }
-  body::before {
-    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 100; opacity: 0.04;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 28px 48px; display: flex; justify-content: space-between; align-items: center; mix-blend-mode: difference; color: #fff; }
-  .nav-mark { font-family: 'Cormorant Garamond', serif; font-size: 18px; letter-spacing: 0.3em; text-transform: uppercase; font-weight: 400; }
-  .nav-mark span { color: var(--gold-light); }
-  .nav-links { display: flex; gap: 36px; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; }
-  .nav-links a { color: inherit; text-decoration: none; transition: opacity 0.3s; }
-  .nav-links a:hover { opacity: 0.5; }
-  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 120px 24px 80px; position: relative; text-align: center; }
-  .hero-eyebrow { font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 48px; opacity: 0; animation: fadeUp 1s ease 0.2s forwards; }
-  .hero-eyebrow::before, .hero-eyebrow::after { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--gold); vertical-align: middle; margin: 0 16px; }
-  .wordmark { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(64px, 14vw, 200px); letter-spacing: -0.02em; line-height: 0.9; position: relative; display: inline-flex; align-items: center; opacity: 0; animation: fadeUp 1.2s ease 0.4s forwards; }
-  .wordmark .pre, .wordmark .post { display: inline-block; }
-  .toothpick { display: inline-block; position: relative; width: 0.18em; height: 0.95em; margin: 0 0.04em; transform-origin: bottom center; animation: toothpickIdle 4s ease-in-out infinite; }
-  .toothpick::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, var(--wood) 0%, var(--gold-light) 30%, var(--gold) 60%, var(--gold-deep) 100%); clip-path: polygon(45% 0%, 55% 0%, 65% 100%, 35% 100%); box-shadow: 0 0 20px rgba(184, 146, 74, 0.4), inset -1px 0 0 rgba(0,0,0,0.15); }
-  .toothpick::after { content: ''; position: absolute; top: 10%; left: 50%; transform: translateX(-50%); width: 1px; height: 70%; background: linear-gradient(180deg, rgba(255,255,255,0.6), transparent); }
-  @keyframes toothpickIdle { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(1.5deg); } }
-  .wordmark:hover .toothpick { animation: toothpickPick 0.6s ease; }
-  @keyframes toothpickPick { 0% { transform: rotate(0deg) translateY(0); } 30% { transform: rotate(-8deg) translateY(-8px); } 60% { transform: rotate(4deg) translateY(2px); } 100% { transform: rotate(0deg) translateY(0); } }
-  .wordmark .domain { font-size: 0.18em; color: var(--gold); letter-spacing: 0.05em; align-self: flex-end; margin-bottom: 0.6em; margin-left: 0.1em; font-style: italic; }
-  .hero-tagline { font-size: 14px; letter-spacing: 0.5em; text-transform: uppercase; margin-top: 48px; color: var(--ink-soft); opacity: 0; animation: fadeUp 1s ease 0.8s forwards; }
-  .hero-tagline .dot { color: var(--gold); margin: 0 0.3em; }
-  .hero-sub { max-width: 520px; margin: 36px auto 0; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 19px; line-height: 1.6; color: var(--ink-soft); opacity: 0; animation: fadeUp 1s ease 1.1s forwards; }
-  .scroll-cue { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); font-size: 9px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold-deep); opacity: 0; animation: fadeUp 1s ease 1.5s forwards, scrollBob 2s ease-in-out 2.5s infinite; }
-  .scroll-cue::after { content: ''; display: block; width: 1px; height: 32px; background: var(--gold); margin: 12px auto 0; }
-  @keyframes scrollBob { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 6px); } }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  section { padding: 140px 48px; position: relative; }
-  .section-eyebrow { font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 24px; display: flex; align-items: center; gap: 16px; }
-  .section-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--gold); }
-  .section-title { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(40px, 6vw, 76px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 32px; }
-  .section-title em { font-style: italic; color: var(--gold); }
-  .loop { max-width: 1280px; margin: 0 auto; }
-  .loop-header { text-align: center; margin-bottom: 100px; }
-  .loop-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; position: relative; }
-  .loop-steps::before { content: ''; position: absolute; top: 60px; left: 16%; right: 16%; height: 1px; background: linear-gradient(90deg, transparent 0%, var(--gold) 20%, var(--gold) 80%, transparent 100%); z-index: 0; }
-  .step { text-align: center; padding: 0 32px; position: relative; z-index: 1; }
-  .step-number { width: 120px; height: 120px; margin: 0 auto 40px; border: 1px solid var(--gold); border-radius: 50%; background: var(--bg); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 48px; color: var(--gold); position: relative; transition: all 0.5s ease; }
-  .step:hover .step-number { background: var(--ink); color: var(--gold-light); border-color: var(--ink); transform: scale(1.05); }
-  .step-number::after { content: ''; position: absolute; inset: -8px; border: 1px solid var(--line); border-radius: 50%; transition: all 0.5s ease; }
-  .step:hover .step-number::after { inset: -16px; border-color: var(--gold-light); }
-  .step-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 400; margin-bottom: 16px; letter-spacing: -0.01em; }
-  .step-title em { font-style: italic; color: var(--gold); }
-  .step-desc { font-size: 15px; line-height: 1.7; color: var(--ink-soft); max-width: 280px; margin: 0 auto; }
-  .vibe-section { background: var(--bg-deep); color: var(--paper); padding: 160px 48px; }
-  .vibe-section .section-eyebrow { color: var(--gold-light); }
-  .vibe-section .section-eyebrow::before { background: var(--gold-light); }
-  .vibe-wrap { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 100px; align-items: center; }
-  .vibe-copy h2 { color: var(--paper); }
-  .vibe-copy p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 20px; line-height: 1.7; color: rgba(244, 237, 224, 0.7); margin-bottom: 32px; }
-  .vibe-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; }
-  .vibe-tag { padding: 8px 18px; border: 1px solid var(--gold); border-radius: 100px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-light); transition: all 0.3s; }
-  .vibe-tag:hover { background: var(--gold); color: var(--bg-deep); transform: translateY(-2px); }
-  .product-moment { position: relative; aspect-ratio: 3/4; background: radial-gradient(ellipse at 50% 60%, #2a2520 0%, #16130f 70%); border: 1px solid rgba(184, 146, 74, 0.3); overflow: hidden; transition: transform 0.6s ease; display: flex; align-items: center; justify-content: center; }
-  .product-moment:hover { transform: rotate(-1deg) translateY(-8px); }
-  .product-moment::before { content: ''; position: absolute; inset: 12px; border: 1px solid rgba(184, 146, 74, 0.15); pointer-events: none; z-index: 3; }
-  .product-moment-label { position: absolute; top: 24px; left: 24px; right: 24px; display: flex; justify-content: space-between; align-items: flex-start; z-index: 4; }
-  .product-mark { font-family: 'Cormorant Garamond', serif; font-size: 14px; letter-spacing: 0.2em; color: var(--gold-light); }
-  .product-no { font-size: 9px; letter-spacing: 0.3em; color: rgba(244, 237, 224, 0.5); text-transform: uppercase; }
-  .product-caption { position: absolute; bottom: 28px; left: 24px; right: 24px; text-align: center; z-index: 4; }
-  .product-caption-name { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 22px; color: var(--gold-light); line-height: 1.3; margin-bottom: 6px; }
-  .product-caption-code { font-size: 10px; letter-spacing: 0.3em; color: rgba(244, 237, 224, 0.5); text-transform: uppercase; }
-  .product-caption-code span { color: var(--gold); }
-  .product-svg { width: 78%; height: auto; position: relative; z-index: 2; filter: drop-shadow(0 30px 40px rgba(0,0,0,0.5)); }
-  .founder { max-width: 760px; margin: 0 auto; text-align: left; }
-  .founder-quote { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(28px, 4vw, 44px); line-height: 1.3; color: var(--ink); margin: 60px 0 48px; position: relative; padding-left: 32px; border-left: 1px solid var(--gold); }
-  .founder-quote::before { content: '"'; position: absolute; top: -40px; left: 0; font-size: 120px; color: var(--gold); opacity: 0.3; font-family: 'Cormorant Garamond', serif; line-height: 1; }
-  .founder-body { font-size: 16px; line-height: 1.85; color: var(--ink-soft); margin-bottom: 20px; }
-  .founder-sig { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 16px; }
-  .founder-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; color: var(--ink); }
-  .founder-title { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-deep); }
-  .capture { background: var(--paper); text-align: center; padding: 160px 48px; position: relative; overflow: hidden; }
-  .capture::before, .capture::after { content: ''; position: absolute; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(184, 146, 74, 0.08) 0%, transparent 70%); pointer-events: none; }
-  .capture::before { top: -100px; left: -100px; }
-  .capture::after { bottom: -100px; right: -100px; }
-  .capture-inner { max-width: 640px; margin: 0 auto; position: relative; z-index: 2; }
-  .capture-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 18px; color: var(--ink-soft); margin: 32px auto 56px; max-width: 480px; line-height: 1.6; }
-  .capture-form { display: flex; gap: 0; max-width: 520px; margin: 0 auto; border-bottom: 1px solid var(--ink); transition: border-color 0.3s; }
-  .capture-form:focus-within { border-bottom-color: var(--gold); }
-  .capture-input { flex: 1; padding: 20px 4px; background: transparent; border: none; outline: none; font-family: 'Outfit', sans-serif; font-size: 15px; color: var(--ink); letter-spacing: 0.02em; }
-  .capture-input::placeholder { color: rgba(10, 10, 10, 0.35); letter-spacing: 0.15em; text-transform: uppercase; font-size: 12px; }
-  .capture-button { padding: 20px 32px; background: transparent; border: none; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink); transition: all 0.3s; position: relative; }
-  .capture-button:hover { color: var(--gold-deep); letter-spacing: 0.4em; }
-  .capture-button::after { content: '→'; margin-left: 8px; transition: transform 0.3s; display: inline-block; }
-  .capture-button:hover::after { transform: translateX(4px); }
-  .capture-role { display: flex; gap: 24px; justify-content: center; margin-top: 28px; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ink-soft); }
-  .capture-role label { display: flex; align-items: center; gap: 8px; cursor: pointer; transition: color 0.3s; }
-  .capture-role label:hover { color: var(--gold-deep); }
-  .capture-role input[type="radio"] { accent-color: var(--gold); }
-  .capture-success { display: none; margin-top: 40px; padding: 32px; background: var(--bg-deep); color: var(--paper); }
-  .capture-success.show { display: block; animation: fadeUp 0.6s ease; }
-  .capture-success h3 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 28px; color: var(--gold-light); margin-bottom: 12px; }
-  .capture-success p { font-size: 13px; letter-spacing: 0.05em; color: rgba(244, 237, 224, 0.7); }
-  footer { background: var(--ink); color: var(--paper); padding: 64px 48px 32px; text-align: center; }
-  .footer-mark { font-family: 'Cormorant Garamond', serif; font-size: 16px; letter-spacing: 0.3em; color: var(--gold-light); margin-bottom: 16px; }
-  .footer-tag { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(244, 237, 224, 0.4); margin-bottom: 32px; }
-  .footer-credit { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 24px; opacity: 0.7; }
-  .footer-credit span { color: var(--gold); }
-  .footer-social { display: flex; justify-content: center; align-items: center; gap: 24px; margin-bottom: 36px; flex-wrap: wrap; }
-  .footer-social a { display: inline-flex; align-items: center; gap: 8px; color: rgba(244, 237, 224, 0.6); text-decoration: none; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; letter-spacing: 0.05em; transition: color 0.3s, transform 0.3s; }
-  .footer-social a:hover { color: var(--gold-light); transform: translateY(-2px); }
-  .footer-social svg { width: 14px; height: 14px; fill: currentColor; }
-  .footer-social .sep { color: rgba(184, 146, 74, 0.4); font-size: 12px; }
-  .footer-meta { font-size: 10px; letter-spacing: 0.2em; color: rgba(244, 237, 224, 0.3); padding-top: 32px; border-top: 1px solid rgba(244, 237, 224, 0.08); }
-  @media (max-width: 880px) {
-    nav { padding: 20px 24px; }
-    .nav-links { display: none; }
-    section { padding: 100px 24px; }
-    .vibe-section { padding: 100px 24px; }
-    .vibe-wrap { grid-template-columns: 1fr; gap: 60px; }
-    .loop-steps { grid-template-columns: 1fr; gap: 60px; }
-    .loop-steps::before { display: none; }
-    .capture-form { flex-direction: column; gap: 16px; border-bottom: none; }
-    .capture-input { border-bottom: 1px solid var(--ink); }
-    .capture-button { background: var(--ink); color: var(--paper); padding: 18px; }
-    .capture-role { flex-direction: column; gap: 12px; align-items: center; }
-    .hero-tagline { letter-spacing: 0.3em; font-size: 11px; }
-  }
+:root {
+    --blueprint-navy: #123B68;
+    --calm-teal: #8CCFC4;
+    --warm-coral: #F68B74;
+    --golden-yellow: #F4BE52;
+    --gentle-lavender: #9C87C8;
+    --warm-cream: #F7F4ED;
+    --graphite-ink: #1E2A36;
+    --font-display: 'Nunito', sans-serif;
+    --font-ui: 'Inter', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: var(--warm-cream);
+    font-family: var(--font-ui);
+    color: var(--graphite-ink);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+}
+#canvas-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 1;
+}
+#ui-header, #ui-tools, #ui-palette, #ui-help {
+    position: absolute;
+    z-index: 10;
+}
+#ui-header {
+    top: 20px; left: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.back-link {
+    font-size: 0.85rem;
+    color: var(--blueprint-navy);
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+.back-link:hover { opacity: 1; }
+.logo {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--blueprint-navy);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+.logo span { color: var(--calm-teal); }
+#ui-tools {
+    top: 20px; right: 24px;
+    display: flex;
+    gap: 10px;
+}
+button {
+    background: rgba(247, 244, 237, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(30, 42, 54, 0.1);
+    color: var(--graphite-ink);
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    min-height: 40px;
+}
+button:hover { background: #fff; transform: translateY(-1px); }
+button:active { transform: translateY(0); }
+button:focus-visible {
+    outline: 2px solid var(--blueprint-navy);
+    outline-offset: 2px;
+}
+button.muted { opacity: 0.5; }
+#ui-palette {
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 14px;
+    background: rgba(247, 244, 237, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 14px 24px;
+    border-radius: 16px;
+    border: 1px solid rgba(30, 42, 54, 0.1);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+}
+.swatch {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+}
+.swatch:hover { transform: scale(1.1); }
+.swatch.active {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 3px var(--warm-cream), 0 0 0 5px var(--graphite-ink);
+}
+.swatch:focus-visible {
+    outline: 3px solid var(--blueprint-navy);
+    outline-offset: 4px;
+}
+.swatch-num {
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    color: var(--graphite-ink);
+    opacity: 0.4;
+    font-weight: 500;
+    pointer-events: none;
+}
+#ui-help {
+    bottom: 30px;
+    right: 24px;
+    background: rgba(247, 244, 237, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(30, 42, 54, 0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--graphite-ink);
+    max-width: 220px;
+    opacity: 0.9;
+}
+#ui-help strong {
+    font-weight: 600;
+    color: var(--blueprint-navy);
+}
+#ui-help kbd {
+    background: rgba(30, 42, 54, 0.08);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+#status-toast {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(18, 59, 104, 0.92);
+    color: var(--warm-cream);
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(8px);
+}
+#status-toast.visible { opacity: 1; }
+#block-counter {
+    position: absolute;
+    top: 80px;
+    right: 24px;
+    z-index: 10;
+    font-size: 0.75rem;
+    color: var(--graphite-ink);
+    opacity: 0.5;
+    font-weight: 500;
+}
+@media (max-width: 768px), (pointer: coarse) {
+    .swatch { width: 44px; height: 44px; }
+    button { padding: 12px 18px; min-height: 44px; }
+    #ui-help { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+    .swatch:hover, .swatch.active, button:hover { transform: none; }
+}
 </style>
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+}
+</script>
 </head>
 <body>
+<header id="ui-header">
+    <a href="/" class="back-link">← Back to blocks.expert</a>
+    <div class="logo">blocks<span>.expert</span></div>
+</header>
 
-<!-- Hidden form for Netlify build-time detection -->
-<form name="waitlist" netlify netlify-honeypot="bot-field" hidden>
-  <input type="email" name="email" />
-  <input type="text" name="role" />
-  <input name="bot-field" />
-</form>
+<div id="ui-tools">
+    <button id="btn-mute" title="Toggle sound" aria-label="Toggle sound">🔊</button>
+    <button id="btn-save">Save</button>
+    <button id="btn-load">Load</button>
+    <button id="btn-clear">Clear</button>
+</div>
 
-<nav>
-  <div class="nav-mark">Tooth<span>|</span>PICK</div>
-  <div class="nav-links">
-    <a href="#magic">The Magic</a>
-    <a href="#vibe">Vibe DNA</a>
-    <a href="#founder">Founder</a>
-    <a href="#waitlist">Waitlist</a>
-  </div>
-</nav>
+<div id="block-counter">0 blocks</div>
 
-<section class="hero">
-  <div class="hero-eyebrow">Coming 2026 · New York City</div>
-  <div class="wordmark" aria-label="ToothPICK.food">
-    <span class="pre">ToothP</span>
-    <span class="toothpick" aria-hidden="true"></span>
-    <span class="post">CK</span>
-    <span class="domain">.food</span>
-  </div>
-  <div class="hero-tagline">No Choices <span class="dot">·</span> Just Magic</div>
-  <p class="hero-sub">The first agentic food platform that reads your vibe — not your menu — and skewers a one-of-one creation made only for you.</p>
-  <div class="scroll-cue">Discover</div>
-</section>
-
-<section id="magic">
-  <div class="loop">
-    <div class="loop-header">
-      <div class="section-eyebrow" style="justify-content: center;">The Magic Loop</div>
-      <h2 class="section-title">Three steps. <em>One creation.</em></h2>
+<div id="ui-palette">
+    <div class="swatch" data-color="#123B68" style="background-color: #123B68" aria-label="Blueprint Navy" tabindex="0" role="button">
+        <span class="swatch-num">1</span>
     </div>
-    <div class="loop-steps">
-      <div class="step">
-        <div class="step-number">i</div>
-        <h3 class="step-title">Read your <em>vibe</em></h3>
-        <p class="step-desc">Five iconographic questions decode your aesthetic. No sliders. No checkboxes. Just feeling.</p>
-      </div>
-      <div class="step">
-        <div class="step-number">ii</div>
-        <h3 class="step-title">Receive your <em>code</em></h3>
-        <p class="step-desc">Our agent composes a creation no human ordered before. You get a Pick Code and a Magic Card.</p>
-      </div>
-      <div class="step">
-        <div class="step-number">iii</div>
-        <h3 class="step-title">Skewer the <em>moment</em></h3>
-        <p class="step-desc">The chef builds. The flag goes in. You photograph it. AI reimagines it. The internet stops scrolling.</p>
-      </div>
+    <div class="swatch" data-color="#8CCFC4" style="background-color: #8CCFC4" aria-label="Calm Teal" tabindex="0" role="button">
+        <span class="swatch-num">2</span>
     </div>
-  </div>
-</section>
-
-<section id="vibe" class="vibe-section">
-  <div class="vibe-wrap">
-    <div class="vibe-copy">
-      <div class="section-eyebrow">Vibe DNA</div>
-      <h2 class="section-title">A taste<br>profile <em>without</em><br>taste questions.</h2>
-      <p>We don't ask what flavors you like. We ask what your Sunday morning sounds like. What your favorite lighting feels like. What the inside of your imagination looks like.</p>
-      <p style="font-style: normal; font-family: 'Outfit', sans-serif; font-size: 15px; color: rgba(244, 237, 224, 0.6); line-height: 1.8;">Then our agent maps your answers to the bakery's ingredient library and composes something only you would have been served. The flat price stays the same. The creation never repeats.</p>
-      <div class="vibe-tags">
-        <span class="vibe-tag">Neon</span><span class="vibe-tag">Earthly</span><span class="vibe-tag">Luxe</span><span class="vibe-tag">Minimalist</span>
-        <span class="vibe-tag">Velvet</span><span class="vibe-tag">Sunlit</span><span class="vibe-tag">Brutal</span><span class="vibe-tag">Romantic</span>
-      </div>
+    <div class="swatch active" data-color="#F68B74" style="background-color: #F68B74" aria-label="Warm Coral" tabindex="0" role="button">
+        <span class="swatch-num">3</span>
     </div>
-
-    <div class="product-moment" aria-label="A ToothPICK creation: ice cream sundae with Pick Code 729">
-      <div class="product-moment-label">
-        <div class="product-mark">TOOTH<span style="color: var(--gold);">|</span>PICK</div>
-        <div class="product-no">The Reveal</div>
-      </div>
-
-      <svg class="product-svg" viewBox="0 0 400 560" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <!-- Glass coupe -->
-          <linearGradient id="glass" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="rgba(244,237,224,0.05)" />
-            <stop offset="40%" stop-color="rgba(244,237,224,0.18)" />
-            <stop offset="60%" stop-color="rgba(244,237,224,0.18)" />
-            <stop offset="100%" stop-color="rgba(244,237,224,0.05)" />
-          </linearGradient>
-          <!-- Vanilla scoop -->
-          <radialGradient id="vanilla" cx="40%" cy="35%" r="65%">
-            <stop offset="0%" stop-color="#fffaf0" />
-            <stop offset="60%" stop-color="#f4e8c8" />
-            <stop offset="100%" stop-color="#d4b878" />
-          </radialGradient>
-          <!-- Strawberry scoop -->
-          <radialGradient id="strawberry" cx="40%" cy="35%" r="65%">
-            <stop offset="0%" stop-color="#ffd4d4" />
-            <stop offset="60%" stop-color="#e89090" />
-            <stop offset="100%" stop-color="#a84545" />
-          </radialGradient>
-          <!-- Chocolate scoop -->
-          <radialGradient id="chocolate" cx="40%" cy="35%" r="65%">
-            <stop offset="0%" stop-color="#8a5a3a" />
-            <stop offset="60%" stop-color="#5c3a1e" />
-            <stop offset="100%" stop-color="#2a1810" />
-          </radialGradient>
-          <!-- Caramel drizzle -->
-          <linearGradient id="caramel" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#d4a574" />
-            <stop offset="100%" stop-color="#8a5a2a" />
-          </linearGradient>
-          <!-- Whipped cream -->
-          <radialGradient id="cream" cx="50%" cy="30%" r="60%">
-            <stop offset="0%" stop-color="#ffffff" />
-            <stop offset="100%" stop-color="#f4ede0" />
-          </radialGradient>
-          <!-- Cherry -->
-          <radialGradient id="cherry" cx="35%" cy="30%" r="65%">
-            <stop offset="0%" stop-color="#ff6470" />
-            <stop offset="60%" stop-color="#c8243a" />
-            <stop offset="100%" stop-color="#6a0e1a" />
-          </radialGradient>
-          <!-- Toothpick wood -->
-          <linearGradient id="pick" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#d4b878" />
-            <stop offset="50%" stop-color="#b8924a" />
-            <stop offset="100%" stop-color="#8a6a30" />
-          </linearGradient>
-          <!-- Flag -->
-          <linearGradient id="flagGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#1a1715" />
-            <stop offset="100%" stop-color="#0a0a0a" />
-          </linearGradient>
-          <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur in="SourceAlpha" stdDeviation="6"/>
-            <feOffset dx="0" dy="10" result="offsetblur"/>
-            <feComponentTransfer><feFuncA type="linear" slope="0.35"/></feComponentTransfer>
-            <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
-
-        <!-- ── GROUND SHADOW ── -->
-        <ellipse cx="200" cy="510" rx="120" ry="14" fill="rgba(0,0,0,0.45)" />
-
-        <!-- ── GLASS COUPE (base, stem, bowl) ── -->
-        <!-- Base/foot -->
-        <ellipse cx="200" cy="505" rx="70" ry="10" fill="rgba(244,237,224,0.12)" stroke="#b8924a" stroke-width="0.6" stroke-opacity="0.5" />
-        <path d="M 138,505 Q 200,495 262,505 Q 200,500 138,505 Z" fill="rgba(244,237,224,0.2)" />
-        <!-- Stem -->
-        <path d="M 192,505 L 195,430 L 205,430 L 208,505 Z" fill="url(#glass)" stroke="#b8924a" stroke-width="0.5" stroke-opacity="0.5" />
-        <!-- Bowl of the coupe (wide, shallow martini-style with curve) -->
-        <path d="M 100,360
-                 Q 95,395 195,430
-                 L 205,430
-                 Q 305,395 300,360
-                 Z"
-              fill="url(#glass)"
-              stroke="#b8924a" stroke-width="0.8" stroke-opacity="0.6" />
-        <!-- Glass top edge -->
-        <ellipse cx="200" cy="360" rx="100" ry="14" fill="none" stroke="#b8924a" stroke-width="0.8" stroke-opacity="0.6" />
-        <ellipse cx="200" cy="360" rx="100" ry="14" fill="rgba(244,237,224,0.06)" />
-        <!-- Glass highlight -->
-        <path d="M 110,365 Q 115,395 195,425" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-opacity="0.3" />
-
-        <!-- ── ICE CREAM SCOOPS ── -->
-        <g filter="url(#softShadow)">
-          <!-- Chocolate scoop (back left) -->
-          <circle cx="170" cy="325" r="52" fill="url(#chocolate)" />
-          <!-- Chocolate texture flecks -->
-          <g fill="#1a0a05" opacity="0.5">
-            <circle cx="155" cy="315" r="2" />
-            <circle cx="180" cy="310" r="1.5" />
-            <circle cx="165" cy="335" r="1.8" />
-            <circle cx="190" cy="340" r="1.2" />
-            <circle cx="150" cy="330" r="1.3" />
-          </g>
-          <!-- Highlight -->
-          <ellipse cx="155" cy="305" rx="18" ry="10" fill="#ffffff" opacity="0.15" />
-
-          <!-- Strawberry scoop (back right) -->
-          <circle cx="232" cy="320" r="50" fill="url(#strawberry)" />
-          <!-- Strawberry chunks -->
-          <g fill="#8a2030" opacity="0.6">
-            <ellipse cx="218" cy="308" rx="3" ry="2" />
-            <ellipse cx="245" cy="318" rx="2.5" ry="1.8" />
-            <ellipse cx="225" cy="332" rx="2.8" ry="2" />
-            <ellipse cx="240" cy="305" rx="2" ry="1.5" />
-          </g>
-          <ellipse cx="220" cy="302" rx="16" ry="9" fill="#ffffff" opacity="0.2" />
-
-          <!-- Vanilla scoop (front center, on top) -->
-          <circle cx="200" cy="285" r="55" fill="url(#vanilla)" />
-          <!-- Vanilla bean flecks -->
-          <g fill="#5c3a1e" opacity="0.55">
-            <ellipse cx="185" cy="275" rx="1.2" ry="0.5" transform="rotate(20 185 275)" />
-            <ellipse cx="210" cy="270" rx="1" ry="0.4" transform="rotate(-15 210 270)" />
-            <ellipse cx="195" cy="295" rx="1.3" ry="0.5" transform="rotate(40 195 295)" />
-            <ellipse cx="218" cy="290" rx="1.1" ry="0.4" transform="rotate(-30 218 290)" />
-            <ellipse cx="180" cy="295" rx="1" ry="0.4" transform="rotate(60 180 295)" />
-          </g>
-          <ellipse cx="183" cy="265" rx="22" ry="12" fill="#ffffff" opacity="0.55" />
-        </g>
-
-        <!-- ── CARAMEL DRIZZLE ── -->
-        <g fill="url(#caramel)" opacity="0.92">
-          <path d="M 150,245 Q 155,265 145,285 Q 142,305 158,322 L 168,322 Q 152,305 158,285 Q 165,265 162,245 Z" />
-          <path d="M 235,250 Q 245,275 240,300 Q 238,320 252,338 L 262,338 Q 248,320 252,300 Q 258,275 248,250 Z" />
-          <!-- Pooling drips -->
-          <ellipse cx="155" cy="330" rx="10" ry="3" />
-          <ellipse cx="252" cy="345" rx="10" ry="3" />
-        </g>
-        <!-- Drizzle highlight -->
-        <g fill="none" stroke="#ffe9b8" stroke-width="1" opacity="0.5">
-          <path d="M 156,250 Q 152,275 152,310" stroke-linecap="round" />
-          <path d="M 244,255 Q 246,285 248,320" stroke-linecap="round" />
-        </g>
-
-        <!-- ── WHIPPED CREAM ── -->
-        <g filter="url(#softShadow)">
-          <!-- Bottom layer of cream -->
-          <ellipse cx="200" cy="240" rx="42" ry="18" fill="url(#cream)" />
-          <!-- Middle layer -->
-          <ellipse cx="200" cy="225" rx="32" ry="14" fill="url(#cream)" />
-          <!-- Top dollop -->
-          <ellipse cx="200" cy="212" rx="22" ry="11" fill="url(#cream)" />
-          <!-- Peak -->
-          <path d="M 200,195 Q 192,210 208,210 Z" fill="url(#cream)" />
-          <!-- Tip -->
-          <ellipse cx="200" cy="195" rx="6" ry="5" fill="url(#cream)" />
-          <!-- Highlights -->
-          <ellipse cx="190" cy="232" rx="10" ry="3" fill="#ffffff" opacity="0.7" />
-          <ellipse cx="192" cy="218" rx="7" ry="2.5" fill="#ffffff" opacity="0.6" />
-        </g>
-
-        <!-- ── SPRINKLES ON CREAM ── -->
-        <g opacity="0.95">
-          <rect x="186" y="218" width="5" height="1.5" fill="#b8924a" transform="rotate(25 188 219)" />
-          <rect x="206" y="225" width="5" height="1.5" fill="#d4b878" transform="rotate(-15 208 226)" />
-          <rect x="194" y="233" width="5" height="1.5" fill="#b8924a" transform="rotate(45 196 234)" />
-          <rect x="212" y="237" width="5" height="1.5" fill="#d4b878" transform="rotate(-30 214 238)" />
-          <rect x="180" y="240" width="5" height="1.5" fill="#b8924a" transform="rotate(15 182 241)" />
-          <rect x="218" y="220" width="5" height="1.5" fill="#d4b878" transform="rotate(60 220 221)" />
-        </g>
-
-        <!-- ── CHERRY ── -->
-        <g filter="url(#softShadow)">
-          <!-- Stem (curving up to meet the flag) -->
-          <path d="M 200,185 Q 198,170 202,158" fill="none" stroke="#3a5a2a" stroke-width="2" stroke-linecap="round" />
-          <!-- Cherry body -->
-          <circle cx="200" cy="188" r="13" fill="url(#cherry)" />
-          <!-- Cherry highlight -->
-          <ellipse cx="195" cy="183" rx="4" ry="3" fill="#ffffff" opacity="0.7" />
-          <!-- Cherry shadow underneath -->
-          <ellipse cx="200" cy="200" rx="9" ry="2" fill="#4a0a10" opacity="0.4" />
-        </g>
-
-        <!-- ── TOOTHPICK + FLAG (skewered through the cherry) ── -->
-        <g transform="translate(200, 100) rotate(-6)">
-          <!-- Toothpick shaft -->
-          <polygon points="-2,0 2,0 3,140 -3,140" fill="url(#pick)" />
-          <line x1="0" y1="5" x2="0" y2="135" stroke="#ffe9b8" stroke-width="0.4" opacity="0.7" />
-          <!-- Sharp tip emerging through cherry -->
-          <polygon points="-3,140 3,140 0,150" fill="#6b4520" />
-
-          <!-- The flag -->
-          <g transform="translate(2, -5)">
-            <rect x="1" y="2" width="62" height="38" fill="rgba(0,0,0,0.4)" />
-            <rect x="0" y="0" width="62" height="38" fill="url(#flagGrad)" stroke="#b8924a" stroke-width="0.8" />
-            <rect x="3" y="3" width="56" height="32" fill="none" stroke="#b8924a" stroke-width="0.4" opacity="0.5" />
-            <text x="31" y="18" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="#b8924a" letter-spacing="0.5">TOOTH|PICK</text>
-            <text x="31" y="31" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-weight="500" font-size="15" fill="#d4b878">#729</text>
-          </g>
-        </g>
-
-        <!-- ── COLD MIST SPARKLES ── -->
-        <g opacity="0.2" fill="#f4ede0">
-          <circle cx="130" cy="290" r="1.5" />
-          <circle cx="280" cy="280" r="1.2" />
-          <circle cx="115" cy="340" r="1" />
-          <circle cx="295" cy="320" r="1.4" />
-          <circle cx="140" cy="380" r="1.1" />
-          <circle cx="275" cy="370" r="1.3" />
-        </g>
-      </svg>
-
-      <div class="product-caption">
-        <div class="product-caption-name">"Velvet Sunrise on the Lower East Side"</div>
-        <div class="product-caption-code">Pick Code · <span>#729</span></div>
-      </div>
+    <div class="swatch" data-color="#F4BE52" style="background-color: #F4BE52" aria-label="Golden Yellow" tabindex="0" role="button">
+        <span class="swatch-num">4</span>
     </div>
-  </div>
-</section>
-
-<section id="founder">
-  <div class="founder">
-    <div class="section-eyebrow">A Note From the Founder</div>
-    <h2 class="section-title">Why a <em>toothpick.</em></h2>
-    <p class="founder-quote">The toothpick is the smallest tool in the kitchen and the most decisive. It says: this one. This is the one. No more thinking.</p>
-    <p class="founder-body">ToothPICK started as a question: what if the most personalized thing you ever received was the thing you didn't have to choose?</p>
-    <p class="founder-body">We're starting with bakeries, ice cream, and pizza shops across New York City. Five shops. Fifty influencers. One small flag at a time. If you're a small business owner, a creator, or someone who just wants to be among the first to claim a code — leave your email below.</p>
-    <p class="founder-body">The skewer is coming.</p>
-    <div class="founder-sig">
-      <div>
-        <div class="founder-name">Alex Zablocki</div>
-        <div class="founder-title">Founder · New York</div>
-      </div>
+    <div class="swatch" data-color="#9C87C8" style="background-color: #9C87C8" aria-label="Gentle Lavender" tabindex="0" role="button">
+        <span class="swatch-num">5</span>
     </div>
-  </div>
-</section>
+</div>
 
-<section id="waitlist" class="capture">
-  <div class="capture-inner">
-    <div class="section-eyebrow" style="justify-content: center;">The Waitlist</div>
-    <h2 class="section-title">Claim a <em>code</em>.</h2>
-    <p class="capture-tagline">We're opening the first fifty Pick Codes to a private list. Small business owners and creators get priority access. No spam. One letter when we launch.</p>
+<div id="ui-help">
+    <strong>Build:</strong> click to place<br>
+    <strong>Remove:</strong> right-click / shift+click<br>
+    <strong>Orbit:</strong> middle-drag or right-drag<br>
+    <strong>Colors:</strong> <kbd>1</kbd>–<kbd>5</kbd>
+</div>
 
-    <form class="capture-form" id="waitlistForm" name="waitlist" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" onsubmit="handleSubmit(event)">
-      <input type="hidden" name="form-name" value="waitlist" />
-      <p style="display:none;"><label>Don't fill this out if you're human: <input name="bot-field" /></label></p>
-      <input type="email" name="email" class="capture-input" id="emailInput" placeholder="your email address" required autocomplete="email" />
-      <button type="submit" class="capture-button">Join the List</button>
-    </form>
+<div id="canvas-container"></div>
+<div id="status-toast"></div>
 
-    <div class="capture-role">
-      <label><input type="radio" name="role" value="business" form="waitlistForm"> Small Business Owner</label>
-      <label><input type="radio" name="role" value="creator" form="waitlistForm"> Creator / Influencer</label>
-      <label><input type="radio" name="role" value="curious" form="waitlistForm" checked> Just Curious</label>
-    </div>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-    <div class="capture-success" id="successMsg">
-      <h3>You're on the list.</h3>
-      <p>We'll be in touch when the first flags go in.</p>
-    </div>
-  </div>
-</section>
+// --- State ---
+const MAX_BLOCKS = 2000;
+let currentColor = new THREE.Color('#F68B74');
+let blockCount = 0;
+const blockData = []; // {x, y, z, colorHex}
+let savedState = null; // in-memory save (artifacts can't use localStorage)
+let muted = false;
 
-<footer>
-  <div class="footer-mark">Tooth<span style="color: var(--gold);">|</span>PICK<span style="color: var(--gold); font-style: italic;">.food</span></div>
-  <div class="footer-tag">No Choices · Just Magic</div>
-  <div class="footer-credit">Powered by Gemini <span>Ultra</span></div>
-  <div class="footer-social">
-    <a href="https://www.instagram.com/toothpick.food" target="_blank" rel="noopener" aria-label="ToothPICK on Instagram">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 2c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.3.8-.4.4-.6.8-.8 1.3-.2.4-.3 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.3.4.4.8.6 1.3.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.3-.8.4-.4.6-.8.8-1.3.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.3-.4-.4-.8-.6-1.3-.8-.4-.2-1-.3-2.1-.4C15.5 4.2 15.1 4.2 12 4.2zm0 3.4c2.4 0 4.4 2 4.4 4.4s-2 4.4-4.4 4.4-4.4-2-4.4-4.4 2-4.4 4.4-4.4zm0 7.2c1.5 0 2.8-1.3 2.8-2.8s-1.3-2.8-2.8-2.8-2.8 1.3-2.8 2.8 1.3 2.8 2.8 2.8zm5.6-7.4c0 .6-.5 1-1 1-.6 0-1-.5-1-1 0-.6.5-1 1-1 .6 0 1 .5 1 1z"/>
-      </svg>
-      <span>@toothpick.food</span>
-    </a>
-    <span class="sep">·</span>
-    <a href="mailto:hello@toothpick.food" aria-label="Email ToothPICK">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-      </svg>
-      <span>hello@toothpick.food</span>
-    </a>
-  </div>
-  <div class="footer-meta">© 2026 ToothPICK Food · Brooklyn · Manhattan · Staten Island · Coming Soon</div>
-</footer>
+// --- Scene ---
+const container = document.getElementById('canvas-container');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#F7F4ED');
 
-<script>
-  function handleSubmit(e) {
-    e.preventDefault();
-    const form = document.getElementById('waitlistForm');
-    const formData = new FormData(form);
-    const role = document.querySelector('input[name="role"]:checked')?.value || 'curious';
-    formData.set('role', role);
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(15, 18, 15);
+camera.lookAt(0, 0, 0);
 
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(formData).toString()
-    })
-    .then(() => {
-      document.getElementById('waitlistForm').style.display = 'none';
-      document.querySelector('.capture-role').style.display = 'none';
-      document.getElementById('successMsg').classList.add('show');
-    })
-    .catch((error) => {
-      console.error('Submission error:', error);
-      alert('Something went wrong. Please try again or email us directly.');
-    });
-  }
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+container.appendChild(renderer.domElement);
 
-  window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.wordmark');
-    if (hero && scrolled < 800) {
-      hero.style.transform = `translateY(${scrolled * 0.15}px)`;
-      hero.style.opacity = 1 - (scrolled / 600);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+controls.maxPolarAngle = Math.PI / 2 - 0.05;
+controls.minDistance = 5;
+controls.maxDistance = 50;
+controls.mouseButtons = {
+    LEFT: null, // we handle left-click for placement
+    MIDDLE: THREE.MOUSE.ROTATE,
+    RIGHT: THREE.MOUSE.ROTATE // also allow right-drag to orbit
+};
+controls.touches = {
+    ONE: null, // single tap = place (we handle it)
+    TWO: THREE.TOUCH.DOLLY_ROTATE
+};
+
+// --- Lighting ---
+const hemiLight = new THREE.HemisphereLight(0xffffff, 0x666666, 0.6);
+hemiLight.position.set(0, 20, 0);
+scene.add(hemiLight);
+
+const dirLight = new THREE.DirectionalLight(0xffffff, 0.85);
+dirLight.position.set(10, 20, 8);
+dirLight.castShadow = true;
+dirLight.shadow.mapSize.width = 2048;
+dirLight.shadow.mapSize.height = 2048;
+dirLight.shadow.camera.near = 0.5;
+dirLight.shadow.camera.far = 60;
+dirLight.shadow.camera.left = -15;
+dirLight.shadow.camera.right = 15;
+dirLight.shadow.camera.top = 15;
+dirLight.shadow.camera.bottom = -15;
+dirLight.shadow.bias = -0.001;
+scene.add(dirLight);
+
+// --- Grid ---
+const gridHelper = new THREE.GridHelper(20, 20, 0x1E2A36, 0x1E2A36);
+gridHelper.material.opacity = 0.12;
+gridHelper.material.transparent = true;
+scene.add(gridHelper);
+
+// Subtle ground plane to receive shadows
+const groundGeo = new THREE.PlaneGeometry(20, 20);
+groundGeo.rotateX(-Math.PI / 2);
+const groundMat = new THREE.ShadowMaterial({ opacity: 0.12 });
+const ground = new THREE.Mesh(groundGeo, groundMat);
+ground.receiveShadow = true;
+scene.add(ground);
+
+// Invisible raycaster floor
+const floorGeo = new THREE.PlaneGeometry(20, 20);
+floorGeo.rotateX(-Math.PI / 2);
+const floorMat = new THREE.MeshBasicMaterial({ visible: false });
+const floorPlane = new THREE.Mesh(floorGeo, floorMat);
+scene.add(floorPlane);
+
+// --- InstancedMesh for blocks ---
+const blockGeo = new THREE.BoxGeometry(1, 1, 1);
+const blockMat = new THREE.MeshStandardMaterial({
+    roughness: 0.85,
+    metalness: 0.05
+});
+const instancedMesh = new THREE.InstancedMesh(blockGeo, blockMat, MAX_BLOCKS);
+instancedMesh.castShadow = true;
+instancedMesh.receiveShadow = true;
+instancedMesh.count = 0;
+// Pre-initialize instanceColor buffer
+instancedMesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(MAX_BLOCKS * 3), 3);
+scene.add(instancedMesh);
+
+// --- Ghost preview ---
+const ghostMat = new THREE.MeshStandardMaterial({
+    color: currentColor,
+    transparent: true,
+    opacity: 0.45,
+    roughness: 0.85
+});
+const ghostBlock = new THREE.Mesh(blockGeo, ghostMat);
+ghostBlock.visible = false;
+scene.add(ghostBlock);
+
+// --- Audio (Web Audio API) ---
+let audioCtx = null;
+function initAudio() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
-  });
-</script>
+}
+function playClick(frequency = 280, duration = 0.08) {
+    if (muted || !audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = frequency;
+    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+}
 
+// --- Raycasting ---
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+const dummy = new THREE.Object3D();
+let pointerOverUI = false;
+
+function updatePointer(clientX, clientY) {
+    pointer.x = (clientX / window.innerWidth) * 2 - 1;
+    pointer.y = -(clientY / window.innerHeight) * 2 + 1;
+}
+
+function getIntersection() {
+    raycaster.setFromCamera(pointer, camera);
+    // Build list: floor + instanced mesh
+    const targets = [floorPlane];
+    if (blockCount > 0) targets.push(instancedMesh);
+    const intersects = raycaster.intersectObjects(targets);
+    return intersects.length > 0 ? intersects[0] : null;
+}
+
+function getGhostPosition(intersect) {
+    const pos = new THREE.Vector3().copy(intersect.point);
+    // Offset along the face normal to land on the adjacent cell
+    pos.add(intersect.face.normal.clone().multiplyScalar(0.5));
+    // Snap to grid centers (0.5, 1.5, 2.5...)
+    pos.x = Math.floor(pos.x) + 0.5;
+    pos.y = Math.floor(pos.y) + 0.5;
+    pos.z = Math.floor(pos.z) + 0.5;
+    // Clamp
+    pos.x = Math.max(-9.5, Math.min(9.5, pos.x));
+    pos.y = Math.max(0.5, Math.min(19.5, pos.y));
+    pos.z = Math.max(-9.5, Math.min(9.5, pos.z));
+    return pos;
+}
+
+function updateGhost() {
+    if (pointerOverUI) {
+        ghostBlock.visible = false;
+        return;
+    }
+    const intersect = getIntersection();
+    if (!intersect) {
+        ghostBlock.visible = false;
+        return;
+    }
+    ghostBlock.position.copy(getGhostPosition(intersect));
+    ghostBlock.visible = true;
+}
+
+// --- Place / Remove ---
+function placeBlock(intersect) {
+    if (blockCount >= MAX_BLOCKS) {
+        showToast('Maximum blocks reached');
+        return;
+    }
+    const pos = getGhostPosition(intersect);
+    // Check duplicate (don't stack two blocks in same cell)
+    const exists = blockData.some(b =>
+        b.x === pos.x && b.y === pos.y && b.z === pos.z
+    );
+    if (exists) return;
+
+    dummy.position.copy(pos);
+    dummy.updateMatrix();
+    instancedMesh.setMatrixAt(blockCount, dummy.matrix);
+    instancedMesh.setColorAt(blockCount, currentColor);
+    instancedMesh.instanceMatrix.needsUpdate = true;
+    instancedMesh.instanceColor.needsUpdate = true;
+
+    blockData.push({
+        x: pos.x, y: pos.y, z: pos.z,
+        colorHex: currentColor.getHexString()
+    });
+    blockCount++;
+    instancedMesh.count = blockCount;
+    updateCounter();
+    playClick(280, 0.08);
+}
+
+function removeBlock(intersect) {
+    // Only remove if hitting a block, not the floor
+    if (intersect.object !== instancedMesh) return;
+    const instanceId = intersect.instanceId;
+    if (instanceId === undefined) return;
+
+    // Remove from data array
+    blockData.splice(instanceId, 1);
+    blockCount--;
+
+    // Rebuild instances (simple approach for clarity)
+    rebuildInstances();
+    playClick(180, 0.1);
+}
+
+function rebuildInstances() {
+    for (let i = 0; i < blockData.length; i++) {
+        dummy.position.set(blockData[i].x, blockData[i].y, blockData[i].z);
+        dummy.updateMatrix();
+        instancedMesh.setMatrixAt(i, dummy.matrix);
+        const c = new THREE.Color('#' + blockData[i].colorHex);
+        instancedMesh.setColorAt(i, c);
+    }
+    instancedMesh.count = blockData.length;
+    instancedMesh.instanceMatrix.needsUpdate = true;
+    instancedMesh.instanceColor.needsUpdate = true;
+    updateCounter();
+}
+
+function clearAll() {
+    blockData.length = 0;
+    blockCount = 0;
+    instancedMesh.count = 0;
+    instancedMesh.instanceMatrix.needsUpdate = true;
+    updateCounter();
+}
+
+function updateCounter() {
+    document.getElementById('block-counter').textContent =
+        blockCount === 1 ? '1 block' : `${blockCount} blocks`;
+}
+
+// --- Input handlers ---
+let pointerDownTime = 0;
+let pointerDownPos = { x: 0, y: 0 };
+let longPressTimer = null;
+let isTouchDevice = false;
+
+container.addEventListener('pointermove', (e) => {
+    updatePointer(e.clientX, e.clientY);
+    updateGhost();
+});
+
+container.addEventListener('pointerleave', () => {
+    ghostBlock.visible = false;
+});
+
+container.addEventListener('pointerdown', (e) => {
+    initAudio();
+    pointerDownTime = Date.now();
+    pointerDownPos = { x: e.clientX, y: e.clientY };
+    isTouchDevice = e.pointerType === 'touch';
+
+    // Long-press for touch = remove
+    if (isTouchDevice) {
+        longPressTimer = setTimeout(() => {
+            updatePointer(e.clientX, e.clientY);
+            const intersect = getIntersection();
+            if (intersect && intersect.object === instancedMesh) {
+                removeBlock(intersect);
+            }
+            longPressTimer = null;
+        }, 500);
+    }
+});
+
+container.addEventListener('pointerup', (e) => {
+    if (longPressTimer) {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+    }
+
+    // Ignore if it was a drag (orbit), not a click
+    const dx = Math.abs(e.clientX - pointerDownPos.x);
+    const dy = Math.abs(e.clientY - pointerDownPos.y);
+    if (dx > 5 || dy > 5) return;
+
+    // Ignore if too long (was a long-press already handled)
+    if (Date.now() - pointerDownTime > 500 && isTouchDevice) return;
+
+    updatePointer(e.clientX, e.clientY);
+    const intersect = getIntersection();
+    if (!intersect) return;
+
+    // Right-click or shift+click = remove
+    if (e.button === 2 || e.shiftKey) {
+        removeBlock(intersect);
+    } else if (e.button === 0) {
+        placeBlock(intersect);
+    }
+});
+
+// Prevent right-click context menu
+container.addEventListener('contextmenu', (e) => e.preventDefault());
+
+// --- Keyboard ---
+window.addEventListener('keydown', (e) => {
+    if (e.key >= '1' && e.key <= '5') {
+        const idx = parseInt(e.key) - 1;
+        const swatches = document.querySelectorAll('.swatch');
+        if (swatches[idx]) selectSwatch(swatches[idx]);
+    } else if (e.key === 'Escape') {
+        ghostBlock.visible = false;
+    } else if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+        e.preventDefault();
+        if (blockData.length > 0) {
+            blockData.pop();
+            blockCount--;
+            rebuildInstances();
+            playClick(180, 0.08);
+        }
+    }
+});
+
+// --- UI: Swatches ---
+function selectSwatch(swatch) {
+    if (!swatch || !swatch.dataset.color) return;
+    document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+    swatch.classList.add('active');
+    currentColor.set(swatch.dataset.color);
+    ghostMat.color.copy(currentColor);
+}
+
+document.querySelectorAll('.swatch').forEach(swatch => {
+    // Use pointerdown for instant response; stop propagation so canvas doesn't see it
+    swatch.addEventListener('pointerdown', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        initAudio();
+        selectSwatch(e.currentTarget);
+    });
+    swatch.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectSwatch(e.currentTarget);
+    });
+    swatch.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            selectSwatch(e.currentTarget);
+        }
+    });
+});
+
+// --- Storage (localStorage in production) ---
+const STORAGE_KEY = 'blocks.expert.sandbox.save.v1';
+
+function saveToStorage(data) {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        return true;
+    } catch (e) {
+        console.warn('localStorage unavailable, using in-memory fallback');
+        savedState = JSON.parse(JSON.stringify(data));
+        return false;
+    }
+}
+
+function loadFromStorage() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) return JSON.parse(raw);
+    } catch (e) {
+        // ignore
+    }
+    return savedState; // fallback to in-memory
+}
+
+// --- UI: Tools (with stopPropagation to prevent canvas events) ---
+function bindTool(id, handler) {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('pointerdown', (e) => {
+        e.stopPropagation();
+    });
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        initAudio();
+        handler(e);
+    });
+}
+
+bindTool('btn-save', () => {
+    saveToStorage(blockData);
+    showToast(`Saved ${blockData.length} blocks`);
+    playClick(440, 0.1);
+});
+
+bindTool('btn-load', () => {
+    const data = loadFromStorage();
+    if (!data || data.length === 0) {
+        showToast('No saved build yet');
+        return;
+    }
+    blockData.length = 0;
+    data.forEach(b => blockData.push({...b}));
+    blockCount = blockData.length;
+    rebuildInstances();
+    showToast(`Loaded ${blockData.length} blocks`);
+    playClick(440, 0.1);
+});
+
+bindTool('btn-clear', () => {
+    if (blockData.length === 0) return;
+    clearAll();
+    showToast('Cleared');
+    playClick(180, 0.1);
+});
+
+bindTool('btn-mute', (e) => {
+    muted = !muted;
+    const btn = e.currentTarget;
+    btn.textContent = muted ? '🔇' : '🔊';
+    btn.classList.toggle('muted', muted);
+});
+
+// --- UI: Hover detection on overlays ---
+['ui-header', 'ui-tools', 'ui-palette', 'ui-help'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('pointerenter', () => { pointerOverUI = true; ghostBlock.visible = false; });
+    el.addEventListener('pointerleave', () => { pointerOverUI = false; });
+});
+
+// --- Toast ---
+let toastTimer = null;
+function showToast(msg) {
+    const toast = document.getElementById('status-toast');
+    toast.textContent = msg;
+    toast.classList.add('visible');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('visible'), 1600);
+}
+
+// --- Resize ---
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// --- Animation ---
+function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+}
+animate();
+updateCounter();
+</script>
 </body>
 </html>
