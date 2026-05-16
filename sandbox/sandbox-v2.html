@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sandbox — Blocks.expert</title>
+<meta name="description" content="A calm, browser-based building space for structured creativity. Place blocks, change colors, and find your flow — distraction-free and free to use.">
+
+<meta property="og:title" content="Sandbox — Blocks.expert">
+<meta property="og:description" content="A calm, browser-based building space for structured creativity. Place blocks, change colors, and find your flow — distraction-free and free to use.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blocks.expert/sandbox/">
+<meta property="og:image" content="https://blocks.expert/assets/images/og-default.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sandbox — Blocks.expert">
+<meta name="twitter:description" content="A calm, browser-based building space for structured creativity.">
+<meta name="twitter:image" content="https://blocks.expert/assets/images/og-default.png">
+
+<link rel="canonical" href="https://blocks.expert/sandbox/">
+
+<link rel="icon" type="image/svg+xml" href="/assets/images/logo.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --blueprint-navy: #123B68;
+    --calm-teal: #8CCFC4;
+    --warm-coral: #F68B74;
+    --golden-yellow: #F4BE52;
+    --gentle-lavender: #9C87C8;
+    --warm-cream: #F7F4ED;
+    --graphite-ink: #1E2A36;
+    --font-display: 'Nunito', sans-serif;
+    --font-ui: 'Inter', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: var(--warm-cream);
+    font-family: var(--font-ui);
+    color: var(--graphite-ink);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+}
+#canvas-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 1;
+}
+#ui-header, #ui-tools, #ui-palette, #ui-help {
+    position: absolute;
+    z-index: 10;
+}
+#ui-header {
+    top: 20px; left: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.back-link {
+    font-size: 0.85rem;
+    color: var(--blueprint-navy);
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+.back-link:hover { opacity: 1; }
+.logo {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--blueprint-navy);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+.logo span { color: var(--calm-teal); }
+#ui-tools {
+    top: 20px; right: 24px;
+    display: flex;
+    gap: 10px;
+}
+button {
+    background: rgba(247, 244, 237, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(30, 42, 54, 0.1);
+    color: var(--graphite-ink);
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    min-height: 40px;
+}
+button:hover { background: #fff; transform: translateY(-1px); }
+button:active { transform: translateY(0); }
+button:focus-visible {
+    outline: 2px solid var(--blueprint-navy);
+    outline-offset: 2px;
+}
+button.muted { opacity: 0.5; }
+#ui-palette {
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 14px;
+    background: rgba(247, 244, 237, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 14px 24px;
+    border-radius: 16px;
+    border: 1px solid rgba(30, 42, 54, 0.1);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+}
+.swatch {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+}
+.swatch:hover { transform: scale(1.1); }
+.swatch.active {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 3px var(--warm-cream), 0 0 0 5px var(--graphite-ink);
+}
+.swatch:focus-visible {
+    outline: 3px solid var(--blueprint-navy);
+    outline-offset: 4px;
+}
+.swatch-num {
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    color: var(--graphite-ink);
+    opacity: 0.4;
+    font-weight: 500;
+    pointer-events: none;
+}
+#ui-help {
+    bottom: 30px;
+    right: 24px;
+    background: rgba(247, 244, 237, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(30, 42, 54, 0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--graphite-ink);
+    max-width: 220px;
+    opacity: 0.9;
+}
+#ui-help strong {
+    font-weight: 600;
+    color: var(--blueprint-navy);
+}
+#ui-help kbd {
+    background: rgba(30, 42, 54, 0.08);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+#status-toast {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(18, 59, 104, 0.92);
+    color: var(--warm-cream);
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(8px);
+}
+#status-toast.visible { opacity: 1; }
+#block-counter {
+    position: absolute;
+    top: 80px;
+    right: 24px;
+    z-index: 10;
+    font-size: 0.75rem;
+    color: var(--graphite-ink);
+    opacity: 0.5;
+    font-weight: 500;
+}
+@media (max-width: 768px), (pointer: coarse) {
+    .swatch { width: 44px; height: 44px; }
+    button { padding: 12px 18px; min-height: 44px; }
+    #ui-help { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+    .swatch:hover, .swatch.active, button:hover { transform: none; }
+}
+</style>
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+}
+</script>
+</head>
+<body>
+<header id="ui-header">
+    <a href="/" class="back-link">← Back to blocks.expert</a>
+    <div class="logo">blocks<span>.expert</span></div>
+</header>
+
+<div id="ui-tools">
+    <button id="btn-mute" title="Toggle sound" aria-label="Toggle sound">🔊</button>
+    <button id="btn-save">Save</button>
+    <button id="btn-load">Load</button>
+    <button id="btn-clear">Clear</button>
+</div>
+
+<div id="block-counter">0 blocks</div>
+
+<div id="ui-palette">
+    <div class="swatch" data-color="#123B68" style="background-color: #123B68" aria-label="Blueprint Navy" tabindex="0" role="button">
+        <span class="swatch-num">1</span>
+    </div>
+    <div class="swatch" data-color="#8CCFC4" style="background-color: #8CCFC4" aria-label="Calm Teal" tabindex="0" role="button">
+        <span class="swatch-num">2</span>
+    </div>
+    <div class="swatch active" data-color="#F68B74" style="background-color: #F68B74" aria-label="Warm Coral" tabindex="0" role="button">
+        <span class="swatch-num">3</span>
+    </div>
+    <div class="swatch" data-color="#F4BE52" style="background-color: #F4BE52" aria-label="Golden Yellow" tabindex="0" role="button">
+        <span class="swatch-num">4</span>
+    </div>
+    <div class="swatch" data-color="#9C87C8" style="background-color: #9C87C8" aria-label="Gentle Lavender" tabindex="0" role="button">
+        <span class="swatch-num">5</span>
+    </div>
+</div>
+
+<div id="ui-help">
+    <strong>Build:</strong> click to place<br>
+    <strong>Remove:</strong> right-click / shift+click<br>
+    <strong>Orbit:</strong> middle-drag or right-drag<br>
+    <strong>Colors:</strong> <kbd>1</kbd>–<kbd>5</kbd>
+</div>
+
+<div id="canvas-container"></div>
+<div id="status-toast"></div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// --- State ---
+const MAX_BLOCKS = 2000;
+let currentColor = new THREE.Color('#F68B74');
+let blockCount = 0;
+const blockData = []; // {x, y, z, colorHex}
+let savedState = null; // in-memory save (artifacts can't use localStorage)
+let muted = false;
+
+// --- Scene ---
+const container = document.getElementById('canvas-container');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#F7F4ED');
+
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(15, 18, 15);
+camera.lookAt(0, 0, 0);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+container.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+controls.maxPolarAngle = Math.PI / 2 - 0.05;
+controls.minDistance = 5;
+controls.maxDistance = 50;
+controls.mouseButtons = {
+    LEFT: null, // we handle left-click for placement
+    MIDDLE: THREE.MOUSE.ROTATE,
+    RIGHT: THREE.MOUSE.ROTATE // also allow right-drag to orbit
+};
+controls.touches = {
+    ONE: null, // single tap = place (we handle it)
+    TWO: THREE.TOUCH.DOLLY_ROTATE
+};
+
+// --- Lighting ---
+const hemiLight = new THREE.HemisphereLight(0xffffff, 0x666666, 0.6);
+hemiLight.position.set(0, 20, 0);
+scene.add(hemiLight);
+
+const dirLight = new THREE.DirectionalLight(0xffffff, 0.85);
+dirLight.position.set(10, 20, 8);
+dirLight.castShadow = true;
+dirLight.shadow.mapSize.width = 2048;
+dirLight.shadow.mapSize.height = 2048;
+dirLight.shadow.camera.near = 0.5;
+dirLight.shadow.camera.far = 60;
+dirLight.shadow.camera.left = -15;
+dirLight.shadow.camera.right = 15;
+dirLight.shadow.camera.top = 15;
+dirLight.shadow.camera.bottom = -15;
+dirLight.shadow.bias = -0.001;
+scene.add(dirLight);
+
+// --- Grid ---
+const gridHelper = new THREE.GridHelper(20, 20, 0x1E2A36, 0x1E2A36);
+gridHelper.material.opacity = 0.12;
+gridHelper.material.transparent = true;
+scene.add(gridHelper);
+
+// Subtle ground plane to receive shadows
+const groundGeo = new THREE.PlaneGeometry(20, 20);
+groundGeo.rotateX(-Math.PI / 2);
+const groundMat = new THREE.ShadowMaterial({ opacity: 0.12 });
+const ground = new THREE.Mesh(groundGeo, groundMat);
+ground.receiveShadow = true;
+scene.add(ground);
+
+// Invisible raycaster floor
+const floorGeo = new THREE.PlaneGeometry(20, 20);
+floorGeo.rotateX(-Math.PI / 2);
+const floorMat = new THREE.MeshBasicMaterial({ visible: false });
+const floorPlane = new THREE.Mesh(floorGeo, floorMat);
+scene.add(floorPlane);
+
+// --- InstancedMesh for blocks ---
+const blockGeo = new THREE.BoxGeometry(1, 1, 1);
+const blockMat = new THREE.MeshStandardMaterial({
+    roughness: 0.85,
+    metalness: 0.05
+});
+const instancedMesh = new THREE.InstancedMesh(blockGeo, blockMat, MAX_BLOCKS);
+instancedMesh.castShadow = true;
+instancedMesh.receiveShadow = true;
+instancedMesh.count = 0;
+// Pre-initialize instanceColor buffer
+instancedMesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(MAX_BLOCKS * 3), 3);
+scene.add(instancedMesh);
+
+// --- Ghost preview ---
+const ghostMat = new THREE.MeshStandardMaterial({
+    color: currentColor,
+    transparent: true,
+    opacity: 0.45,
+    roughness: 0.85
+});
+const ghostBlock = new THREE.Mesh(blockGeo, ghostMat);
+ghostBlock.visible = false;
+scene.add(ghostBlock);
+
+// --- Audio (Web Audio API) ---
+let audioCtx = null;
+function initAudio() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+}
+function playClick(frequency = 280, duration = 0.08) {
+    if (muted || !audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = frequency;
+    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+}
+
+// --- Raycasting ---
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+const dummy = new THREE.Object3D();
+let pointerOverUI = false;
+
+function updatePointer(clientX, clientY) {
+    pointer.x = (clientX / window.innerWidth) * 2 - 1;
+    pointer.y = -(clientY / window.innerHeight) * 2 + 1;
+}
+
+function getIntersection() {
+    raycaster.setFromCamera(pointer, camera);
+    // Build list: floor + instanced mesh
+    const targets = [floorPlane];
+    if (blockCount > 0) targets.push(instancedMesh);
+    const intersects = raycaster.intersectObjects(targets);
+    return intersects.length > 0 ? intersects[0] : null;
+}
+
+function getGhostPosition(intersect) {
+    const pos = new THREE.Vector3().copy(intersect.point);
+    // Offset along the face normal to land on the adjacent cell
+    pos.add(intersect.face.normal.clone().multiplyScalar(0.5));
+    // Snap to grid centers (0.5, 1.5, 2.5...)
+    pos.x = Math.floor(pos.x) + 0.5;
+    pos.y = Math.floor(pos.y) + 0.5;
+    pos.z = Math.floor(pos.z) + 0.5;
+    // Clamp
+    pos.x = Math.max(-9.5, Math.min(9.5, pos.x));
+    pos.y = Math.max(0.5, Math.min(19.5, pos.y));
+    pos.z = Math.max(-9.5, Math.min(9.5, pos.z));
+    return pos;
+}
+
+function updateGhost() {
+    if (pointerOverUI) {
+        ghostBlock.visible = false;
+        return;
+    }
+    const intersect = getIntersection();
+    if (!intersect) {
+        ghostBlock.visible = false;
+        return;
+    }
+    ghostBlock.position.copy(getGhostPosition(intersect));
+    ghostBlock.visible = true;
+}
+
+// --- Place / Remove ---
+function placeBlock(intersect) {
+    if (blockCount >= MAX_BLOCKS) {
+        showToast('Maximum blocks reached');
+        return;
+    }
+    const pos = getGhostPosition(intersect);
+    // Check duplicate (don't stack two blocks in same cell)
+    const exists = blockData.some(b =>
+        b.x === pos.x && b.y === pos.y && b.z === pos.z
+    );
+    if (exists) return;
+
+    dummy.position.copy(pos);
+    dummy.updateMatrix();
+    instancedMesh.setMatrixAt(blockCount, dummy.matrix);
+    instancedMesh.setColorAt(blockCount, currentColor);
+    instancedMesh.instanceMatrix.needsUpdate = true;
+    instancedMesh.instanceColor.needsUpdate = true;
+
+    blockData.push({
+        x: pos.x, y: pos.y, z: pos.z,
+        colorHex: currentColor.getHexString()
+    });
+    blockCount++;
+    instancedMesh.count = blockCount;
+    updateCounter();
+    playClick(280, 0.08);
+}
+
+function removeBlock(intersect) {
+    // Only remove if hitting a block, not the floor
+    if (intersect.object !== instancedMesh) return;
+    const instanceId = intersect.instanceId;
+    if (instanceId === undefined) return;
+
+    // Remove from data array
+    blockData.splice(instanceId, 1);
+    blockCount--;
+
+    // Rebuild instances (simple approach for clarity)
+    rebuildInstances();
+    playClick(180, 0.1);
+}
+
+function rebuildInstances() {
+    for (let i = 0; i < blockData.length; i++) {
+        dummy.position.set(blockData[i].x, blockData[i].y, blockData[i].z);
+        dummy.updateMatrix();
+        instancedMesh.setMatrixAt(i, dummy.matrix);
+        const c = new THREE.Color('#' + blockData[i].colorHex);
+        instancedMesh.setColorAt(i, c);
+    }
+    instancedMesh.count = blockData.length;
+    instancedMesh.instanceMatrix.needsUpdate = true;
+    instancedMesh.instanceColor.needsUpdate = true;
+    updateCounter();
+}
+
+function clearAll() {
+    blockData.length = 0;
+    blockCount = 0;
+    instancedMesh.count = 0;
+    instancedMesh.instanceMatrix.needsUpdate = true;
+    updateCounter();
+}
+
+function updateCounter() {
+    document.getElementById('block-counter').textContent =
+        blockCount === 1 ? '1 block' : `${blockCount} blocks`;
+}
+
+// --- Input handlers ---
+let pointerDownTime = 0;
+let pointerDownPos = { x: 0, y: 0 };
+let longPressTimer = null;
+let isTouchDevice = false;
+
+container.addEventListener('pointermove', (e) => {
+    updatePointer(e.clientX, e.clientY);
+    updateGhost();
+});
+
+container.addEventListener('pointerleave', () => {
+    ghostBlock.visible = false;
+});
+
+container.addEventListener('pointerdown', (e) => {
+    initAudio();
+    pointerDownTime = Date.now();
+    pointerDownPos = { x: e.clientX, y: e.clientY };
+    isTouchDevice = e.pointerType === 'touch';
+
+    // Long-press for touch = remove
+    if (isTouchDevice) {
+        longPressTimer = setTimeout(() => {
+            updatePointer(e.clientX, e.clientY);
+            const intersect = getIntersection();
+            if (intersect && intersect.object === instancedMesh) {
+                removeBlock(intersect);
+            }
+            longPressTimer = null;
+        }, 500);
+    }
+});
+
+container.addEventListener('pointerup', (e) => {
+    if (longPressTimer) {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+    }
+
+    // Ignore if it was a drag (orbit), not a click
+    const dx = Math.abs(e.clientX - pointerDownPos.x);
+    const dy = Math.abs(e.clientY - pointerDownPos.y);
+    if (dx > 5 || dy > 5) return;
+
+    // Ignore if too long (was a long-press already handled)
+    if (Date.now() - pointerDownTime > 500 && isTouchDevice) return;
+
+    updatePointer(e.clientX, e.clientY);
+    const intersect = getIntersection();
+    if (!intersect) return;
+
+    // Right-click or shift+click = remove
+    if (e.button === 2 || e.shiftKey) {
+        removeBlock(intersect);
+    } else if (e.button === 0) {
+        placeBlock(intersect);
+    }
+});
+
+// Prevent right-click context menu
+container.addEventListener('contextmenu', (e) => e.preventDefault());
+
+// --- Keyboard ---
+window.addEventListener('keydown', (e) => {
+    if (e.key >= '1' && e.key <= '5') {
+        const idx = parseInt(e.key) - 1;
+        const swatches = document.querySelectorAll('.swatch');
+        if (swatches[idx]) selectSwatch(swatches[idx]);
+    } else if (e.key === 'Escape') {
+        ghostBlock.visible = false;
+    } else if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+        e.preventDefault();
+        if (blockData.length > 0) {
+            blockData.pop();
+            blockCount--;
+            rebuildInstances();
+            playClick(180, 0.08);
+        }
+    }
+});
+
+// --- UI: Swatches ---
+function selectSwatch(swatch) {
+    if (!swatch || !swatch.dataset.color) return;
+    document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+    swatch.classList.add('active');
+    currentColor.set(swatch.dataset.color);
+    ghostMat.color.copy(currentColor);
+}
+
+document.querySelectorAll('.swatch').forEach(swatch => {
+    // Use pointerdown for instant response; stop propagation so canvas doesn't see it
+    swatch.addEventListener('pointerdown', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        initAudio();
+        selectSwatch(e.currentTarget);
+    });
+    swatch.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectSwatch(e.currentTarget);
+    });
+    swatch.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            selectSwatch(e.currentTarget);
+        }
+    });
+});
+
+// --- Storage (localStorage in production) ---
+const STORAGE_KEY = 'blocks.expert.sandbox.save.v1';
+
+function saveToStorage(data) {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        return true;
+    } catch (e) {
+        console.warn('localStorage unavailable, using in-memory fallback');
+        savedState = JSON.parse(JSON.stringify(data));
+        return false;
+    }
+}
+
+function loadFromStorage() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) return JSON.parse(raw);
+    } catch (e) {
+        // ignore
+    }
+    return savedState; // fallback to in-memory
+}
+
+// --- UI: Tools (with stopPropagation to prevent canvas events) ---
+function bindTool(id, handler) {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('pointerdown', (e) => {
+        e.stopPropagation();
+    });
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        initAudio();
+        handler(e);
+    });
+}
+
+bindTool('btn-save', () => {
+    saveToStorage(blockData);
+    showToast(`Saved ${blockData.length} blocks`);
+    playClick(440, 0.1);
+});
+
+bindTool('btn-load', () => {
+    const data = loadFromStorage();
+    if (!data || data.length === 0) {
+        showToast('No saved build yet');
+        return;
+    }
+    blockData.length = 0;
+    data.forEach(b => blockData.push({...b}));
+    blockCount = blockData.length;
+    rebuildInstances();
+    showToast(`Loaded ${blockData.length} blocks`);
+    playClick(440, 0.1);
+});
+
+bindTool('btn-clear', () => {
+    if (blockData.length === 0) return;
+    clearAll();
+    showToast('Cleared');
+    playClick(180, 0.1);
+});
+
+bindTool('btn-mute', (e) => {
+    muted = !muted;
+    const btn = e.currentTarget;
+    btn.textContent = muted ? '🔇' : '🔊';
+    btn.classList.toggle('muted', muted);
+});
+
+// --- UI: Hover detection on overlays ---
+['ui-header', 'ui-tools', 'ui-palette', 'ui-help'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('pointerenter', () => { pointerOverUI = true; ghostBlock.visible = false; });
+    el.addEventListener('pointerleave', () => { pointerOverUI = false; });
+});
+
+// --- Toast ---
+let toastTimer = null;
+function showToast(msg) {
+    const toast = document.getElementById('status-toast');
+    toast.textContent = msg;
+    toast.classList.add('visible');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('visible'), 1600);
+}
+
+// --- Resize ---
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// --- Animation ---
+function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+}
+animate();
+updateCounter();
+</script>
+</body>
+</html>
